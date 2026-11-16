@@ -255,7 +255,31 @@ function App() {
   const clickSoundRef = useRef(null);
   const exitSoundRef = useRef(null);
   const keyboardSoundRef = useRef(null);
+  const backgroundMusicRef = useRef(null);
   const activePage = sections.find((section) => section.id === activeSection);
+
+  const startBackgroundMusic = (force = false) => {
+    const music = backgroundMusicRef.current;
+    if (!music || (!force && isMuted) || !music.paused) return;
+
+    music.play().catch((error) => {
+      if (error.name !== "NotAllowedError" && error.name !== "AbortError") {
+        console.error("Unable to play the background music.", error);
+      }
+    });
+  };
+
+  useEffect(() => {
+    const music = backgroundMusicRef.current;
+    if (!music) return;
+
+    music.volume = 0.35;
+    music.play().catch((error) => {
+      if (error.name !== "NotAllowedError" && error.name !== "AbortError") {
+        console.error("Unable to play the background music.", error);
+      }
+    });
+  }, []);
 
   const playSound = (soundRef, description) => {
     const sound = soundRef.current;
@@ -296,6 +320,7 @@ function App() {
   };
 
   const handleKeyboardActivation = (event) => {
+    startBackgroundMusic();
     if (isMuted || event.repeat || !(event.target instanceof Element)) return;
 
     const control = event.target.closest("button, a[href]");
@@ -317,17 +342,22 @@ function App() {
     const nextMuted = !isMuted;
     setIsMuted(nextMuted);
 
-    [clickSoundRef.current, exitSoundRef.current, keyboardSoundRef.current].forEach((sound) => {
+    [clickSoundRef.current, exitSoundRef.current, keyboardSoundRef.current, backgroundMusicRef.current].forEach((sound) => {
       if (!sound) return;
 
       sound.muted = nextMuted;
-      if (nextMuted) {
+      if (nextMuted && sound !== backgroundMusicRef.current) {
         sound.pause();
         sound.currentTime = 0;
       }
     });
 
-    if (!nextMuted) playClickSound();
+    if (nextMuted) {
+      backgroundMusicRef.current?.pause();
+    } else {
+      startBackgroundMusic(true);
+      playClickSound();
+    }
   };
 
   return (
@@ -336,7 +366,16 @@ function App() {
       onClickCapture={handleButtonClick}
       onKeyDownCapture={handleKeyboardActivation}
       onMouseOverCapture={handleProjectHover}
+      onPointerDownCapture={startBackgroundMusic}
     >
+      <audio
+        ref={backgroundMusicRef}
+        src="/assets/sounds/seaside-ambience.mp3"
+        preload="auto"
+        loop
+        muted={isMuted}
+        aria-hidden="true"
+      />
       <audio
         ref={clickSoundRef}
         src="/assets/sounds/minecraft-click-menu.mp3"
