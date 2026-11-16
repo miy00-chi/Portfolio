@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import CredentialsContent from "./CredentialsContent.jsx";
 import ContactContent from "./ContactContent.jsx";
 import ProjectsContent from "./ProjectsContent.jsx";
