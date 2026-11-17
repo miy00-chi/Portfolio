@@ -82,7 +82,7 @@ function AboutContent() {
           <p>
             4th Year Student studying BSITWMA @ FEU TECH
             <br />
-            would like to be something
+            An artist in the tech world who wants users to experience the best
           </p>
         </div>
       </div>
