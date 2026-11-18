@@ -62,6 +62,9 @@ const uiUxProjects = [
 ];
 
 const graphicDesigns = [
+  { label: "Character illustration, April 30, 2024", src: "/assets/projects/graphicdesign/4.30.2024.jpg", layout: "art430" },
+  { label: "Blue character illustration, March 25, 2024", src: "/assets/projects/graphicdesign/3.25.2024.jpg", layout: "art325" },
+  { label: "Portrait illustration, February 7, 2024", src: "/assets/projects/graphicdesign/2.7.2024.jpg", layout: "art207" },
   { label: "Flora & Fauna information poster", src: "/assets/projects/graphicdesign/infographics.jpg", layout: "flora" },
   { label: "Rewired event poster", src: "/assets/projects/graphicdesign/wmaPoster.png", layout: "rewired" },
   { label: "ICAF 21 event banner", src: "/assets/projects/graphicdesign/ticaplogo.png", layout: "banner" },
